@@ -1,0 +1,4 @@
+---
+confd_path: ~/.ssh/includes
+ssh_config_name: testfroup
+ssh_config_path: "{{ confd_path }}/{{ ssh_config_name }}"

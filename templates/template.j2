@@ -1,0 +1,15 @@
+{% for host in groups.all | sort() | list %}
+
+{% if host != "localitem" and host != "127.0.0.1" and host != "localhost" %}
+Host {{ hostvars[host].inventory_hostname }}
+{% if hostvars[host].ansible_host is defined and hostvars[host].ansible_host != "" %}  HostName {{ hostvars[host].ansible_host }}
+{% else %} HostName {{ hostvars[host].inventory_hostname }}
+{% endif %}
+{% if hostvars[host].ansible_port is defined %}  Port {{ hostvars[host].ansible_port }}
+{% endif %}
+{% if hostvars[host].ansible_user is defined %}  User {{ hostvars[host].ansible_user }}
+{% endif %}
+{% if hostvars[host].ansible_ssh_private_key_file is defined %}  IdentityFile {{ hostvars[host].ansible_ssh_private_key_file }}
+{% endif %}
+{% endif %}
+{% endfor %}

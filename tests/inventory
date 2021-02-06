@@ -1,0 +1,9 @@
+[test_hosts]
+test-srv01 ansible_host=127.0.0.10 ansible_port=10020
+test-srv02 ansible_host=127.0.0.11 ansible_port=10021
+test-srv03 ansible_host=127.0.0.12 ansible_port=10022
+test-srv04 ansible_host=127.0.0.13
+
+[test_hosts:vars]
+ansible_user=testuser
+ansible_ssh_private_key_file=./test_id_rsa

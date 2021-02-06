@@ -1,0 +1,31 @@
+---
+- name: Check directory
+  stat:
+    path: '{{ confd_path }}'
+  register: p
+
+- name: Stop role if directory is a file
+  fail:
+    msg: ~/.ssh/conf.d is a file
+  when: p.stat.exists and not p.stat.isdir
+
+- name: Create directory
+  file:
+    path: '{{ confd_path }}'
+    state: directory
+    mode: "00700"
+  when: not p.stat.exists
+
+- name: Add hosts file
+  template:
+    src: template.j2
+    dest: "{{ ssh_config_path }}"
+    mode: 0600
+    backup: yes
+
+- name: Import hosts into SSH config
+  lineinfile:
+    path: ~/.ssh/config
+    regexp: '^include ~/.ssh/conf.d/config'
+    line: 'Include {{ ssh_config_path }}'
+    backup: yes
